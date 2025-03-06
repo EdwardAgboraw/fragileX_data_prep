@@ -10,6 +10,9 @@ shared_targets = colnames(brain1)[(colnames(brain1) %in% colnames(brain2))]
 brain1_shared = brain1[,shared_targets]
 brain2_shared = brain2[,shared_targets]
 
+write.csv(brain1_shared,"brain1_chart_data_fx.csv")
+write.csv(brain2_shared,"brain2_chart_data_fx.csv")
+
 #iterate through/transform data.frame
 #if column name matches injection_site value
 #set column value to 0
@@ -32,24 +35,42 @@ brain2_shared_RSC = brain2_shared[brain2_shared$injection_site == "RSC",]
 brain2_shared_PL = brain2_shared[brain2_shared$injection_site == "PL",]
 
 #generate brain comparision graphs
-brain1_comp = prep_for_graph(brain1_shared)
-brain2_comp = prep_for_graph(brain2_shared)
-compare_brains(brain1_comp, brain2_comp, "Wildtype vs xKO", "Wildtype", "xKO")
 
-brain1_comp_RSC = prep_for_graph(brain1_shared_RSC)
-brain1_comp_PL = prep_for_graph(brain1_shared_PL)
-compare_brains(brain1_comp_RSC, brain1_comp_PL, "Wildtype, RSC vs PL", "RSC", "PL")
+#Brain1 (WT) vs Brain 2 (KO), all neurons
+compare_brains(brain1_shared, brain2_shared, "Wildtype vs xKO, all (Proportions)", "Wildtype", "xKO")
+
+compare_brains_counts(brain1_shared, brain2_shared, "Wildtype vs xKO, all (Total Barcode Counts)", "Wildtype", "xKO")
+
+#Brain 1 vs Brain 2, PL injection site
+compare_brains(brain1_shared_PL, brain2_shared_PL, "Wildtype vs xKO, PL (Proportions)", "Wildtype", "xKO")
+
+compare_brains_counts(brain1_shared_PL, brain2_shared_PL, "Wildtype vs xKO, PL (Total Barcode Counts)", "Wildtype", "xKO")
+
+#Brain1 vs Brain2, RSC injection site
+compare_brains(brain1_shared_RSC, brain2_shared_RSC, "Wildtype vs xKO, RSC (Proportions)", "Wildtype", "xKO")
+
+compare_brains_counts(brain1_shared_RSC, brain2_shared_RSC, "Wildtype vs xKO, RSC (Total Barcode Counts)", "Wildtype", "xKO")
 
 
-brain2_comp_RSC = prep_for_graph(brain2_shared_RSC)
-brain2_comp_PL = prep_for_graph(brain2_shared_PL)
-compare_brains(brain2_comp_RSC, brain2_comp_PL, "xKO, RSC vs PL", "RSC", "PL")
+#within brain comparisions
+#Brain 1 RSC vs PL
+compare_brains(brain1_shared_RSC, brain1_shared_PL, "Wildtype, RSC vs PL (Proportions)", "RSC", "PL")
+compare_brains_counts(brain1_shared_RSC, brain1_shared_PL, "Wildtype, RSC vs PL (Total Barcode Counts)", "RSC", "PL")
 
-compare_brains(brain1_comp_PL, brain2_comp_PL, "Wildtype vs xKO, PL", "Wildtype", "xKO")
-#compare_brains(brain1_comp_PL, brain2_comp_PL, "Brain1 vs Brain2, PL", "Brain1", "Brain2")
-
-compare_brains(brain1_comp_RSC, brain2_comp_RSC, "Wildtype vs xKO, RSC", "Wildtype", "xKO")
+#Brain 2 RSC vs PL
+compare_brains(brain2_shared_RSC, brain2_shared_PL, "xKO, RSC vs PL (Proportions)", "RSC", "PL")
+compare_brains_counts(brain2_shared_RSC, brain2_shared_PL, "xKO, RSC vs PL (Total Barcode Counts)", "RSC", "PL")
 
 #Acb = Acumbens
 #CP = caudate putamen
+
+#compare raw counts
+
+
+
+
+
+
+
+
 
